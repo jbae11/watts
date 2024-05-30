@@ -13,12 +13,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   specifies the directory created in the database
   ([#107](https://github.com/watts-dev/watts/pull/107))
 
+### Changes
+
+* Update recommendations for Dakota version
+  ([#111](https://github.com/watts-dev/watts/pull/111))
+* Update GitHub Actions workflows ([#112](https://github.com/watts-dev/watts/pull/112))
+
 ### Fixed
 
 * Fixed path to system python executable in dakota plugin
 * Fixed path for templates rendered from the `extra_template_inputs` argument in
   `PluginGeneric` and subclasses
   ([#109](https://github.com/watts-dev/watts/pull/109))
+* Update to fix `PluginDakota` executable
+  ([#110](https://github.com/watts-dev/watts/pull/110))
 
 ## [0.5.1]
 

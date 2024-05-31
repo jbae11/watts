@@ -94,7 +94,7 @@ class PluginSAS(PluginGeneric):
         List of command-line arguments used to call the executable
     conv_channel
         Path to CHANNELtoCSV utility executable
-    conv_mfuel (Timpano - May 2024: modifications to work with MFUEL output)
+    conv_mfuel
         Path to MFUELPeaktoCSV utility executable
     conv_primar4
         Path to PRIMAR4toCSV utility executable
@@ -120,7 +120,7 @@ class PluginSAS(PluginGeneric):
         # Set other executables based on the main SAS executable
         suffix = executable.suffix
         self._conv_channel = executable.with_name(f"CHANNELtoCSV{suffix}")
-        self._conv_mfuel = executable.with_name(f"MFUELtoCSV{suffix}")  # Timpano - May 2024: modifications to work with MFUEL output 
+        self._conv_mfuel = executable.with_name(f"MFUELtoCSV{suffix}")
         self._conv_primar4 = executable.with_name(f"PRIMAR4toCSV{suffix}")
 
     @property
@@ -132,7 +132,7 @@ class PluginSAS(PluginGeneric):
         return self._conv_primar4
 
     @property
-    def conv_mfuel(self) -> Path:  # Timpano - May 2024: modifications to work with MFUEL output 
+    def conv_mfuel(self) -> Path:
         return self._conv_mfuel
 
     @conv_channel.setter
@@ -148,7 +148,7 @@ class PluginSAS(PluginGeneric):
         self._conv_primar4 = Path(exe)
 
     @conv_mfuel.setter
-    def conv_mfuel(self, exe: PathLike): # Timpano - May 2024: modifications to work with MFUEL output 
+    def conv_mfuel(self, exe: PathLike):
         if shutil.which(exe) is None:
             raise RuntimeError(f"MFUELtoCSV utility executable '{exe}' is missing.")
         self._conv_mfuel = Path(exe)
@@ -184,7 +184,7 @@ class PluginSAS(PluginGeneric):
             with open("PRIMAR4.dat", "r") as file_in, open("PRIMAR4.csv", "w") as file_out:
                 subprocess.run(str(self.conv_primar4), stdin=file_in, stdout=file_out)
 
-        if Path("MFUELss_C000001.dat").is_file(): # Timpano - May 2024: modifications to work with MFUEL output 
+        if Path("MFUELss_C000001.dat").is_file(): 
             with open("MFUELss_C000001.dat", "r") as file_in: 
                 subprocess.run(str(self.conv_mfuel), stdin=file_in) 
    

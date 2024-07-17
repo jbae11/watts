@@ -94,6 +94,8 @@ class PluginSAS(PluginGeneric):
         List of command-line arguments used to call the executable
     conv_channel
         Path to CHANNELtoCSV utility executable
+    conv_mfuel
+        Path to MFUELPeaktoCSV utility executable
     conv_primar4
         Path to PRIMAR4toCSV utility executable
 
@@ -118,6 +120,7 @@ class PluginSAS(PluginGeneric):
         # Set other executables based on the main SAS executable
         suffix = executable.suffix
         self._conv_channel = executable.with_name(f"CHANNELtoCSV{suffix}")
+        self._conv_mfuel = executable.with_name(f"MFUELtoCSV{suffix}")
         self._conv_primar4 = executable.with_name(f"PRIMAR4toCSV{suffix}")
 
     @property
@@ -127,6 +130,10 @@ class PluginSAS(PluginGeneric):
     @property
     def conv_primar4(self) -> Path:
         return self._conv_primar4
+
+    @property
+    def conv_mfuel(self) -> Path:
+        return self._conv_mfuel
 
     @conv_channel.setter
     def conv_channel(self, exe: PathLike):
@@ -139,6 +146,12 @@ class PluginSAS(PluginGeneric):
         if shutil.which(exe) is None:
             raise RuntimeError(f"PRIMAR4toCSV utility executable '{exe}' is missing.")
         self._conv_primar4 = Path(exe)
+
+    @conv_mfuel.setter
+    def conv_mfuel(self, exe: PathLike):
+        if shutil.which(exe) is None:
+            raise RuntimeError(f"MFUELtoCSV utility executable '{exe}' is missing.")
+        self._conv_mfuel = Path(exe)
 
     @property
     def execute_command(self):
@@ -159,9 +172,10 @@ class PluginSAS(PluginGeneric):
         SAS results object
         """
 
-        # Convert CHANNEl.dat and PRIMER4.dat to csv files
+        # Convert CHANNEl.dat and PRIMAR4.dat and MFUELss.dat to csv files
         # using SAS utilities. Check if files exist because
         # they may not be outputted per user's choice.
+
         if Path("CHANNEL.dat").is_file():
             with open("CHANNEL.dat", "r") as file_in, open("CHANNEL.csv", "w") as file_out:
                 subprocess.run(str(self.conv_channel), stdin=file_in, stdout=file_out)
@@ -170,4 +184,8 @@ class PluginSAS(PluginGeneric):
             with open("PRIMAR4.dat", "r") as file_in, open("PRIMAR4.csv", "w") as file_out:
                 subprocess.run(str(self.conv_primar4), stdin=file_in, stdout=file_out)
 
+        if Path("MFUELss_C000001.dat").is_file(): 
+            with open("MFUELss_C000001.dat", "r") as file_in: 
+                subprocess.run(str(self.conv_mfuel), stdin=file_in) 
+   
         return super().postrun(params, exec_info)

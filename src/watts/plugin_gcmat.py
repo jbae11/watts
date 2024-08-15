@@ -63,7 +63,8 @@ class PluginGCMAT(Plugin):
         Whether to display output from stderr when GCMAT is run
 
     """
-    def __init__(self, template_file: PathLike, extra_inputs: Optional[List[PathLike]] = None,
+    def __init__(self, template_file: PathLike,
+                 extra_inputs: Optional[List[PathLike]] = None,
                  show_stdout: bool = False, show_stderr: bool = False):
         super().__init__(extra_inputs, show_stdout, show_stderr)
         self.template_file = template_file

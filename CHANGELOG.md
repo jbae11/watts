@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* GCMAT plugin via the `PluginGCMAT` class
+* GCMAT plugin via the `PluginGCMAT` class ([114](https://github.com/watts-dev/watts/pull/114))
 
 ### Added
 

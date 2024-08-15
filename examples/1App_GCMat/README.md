@@ -19,4 +19,4 @@ This example provides a demonstration for using WATTS explore supply chain dynam
 ## File descriptions
 
 - [__watts_exec.py__](watts_exec.py): WATTS workflow for this example. This is the file to execute to run the problem described above.
-- [__abce_template__](abce_template.txt): Templated GCMat model for the Uranium demand of nuclear scenarios.
+- [__abce_template__](gcmat_template.txt): Templated GCMat model for the Uranium demand of nuclear scenarios.

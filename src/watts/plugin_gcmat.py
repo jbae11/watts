@@ -141,4 +141,3 @@ class PluginGCMAT(Plugin):
         if gui_outputs_file.exists():
             outputs.append(gui_outputs_file)
         return ResultsGCMAT(params, exec_info, self.extra_inputs, outputs)
-    

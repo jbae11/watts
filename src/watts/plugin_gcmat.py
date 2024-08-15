@@ -5,16 +5,14 @@ from pathlib import Path
 import shutil
 import subprocess
 from typing import List, Optional
+import os
 import pandas as pd
-import sys
 
-from .plugin import Plugin, PluginGeneric, _find_executable
+from .plugin import Plugin
 from .results import Results, ExecInfo
 from .fileutils import PathLike
 from .parameters import Parameters
 from .template import TemplateRenderer
-import os
-
 
 class ResultsGCMAT(Results):
     """GCMAT simulation results
@@ -41,7 +39,6 @@ class ResultsGCMAT(Results):
                  inputs: List[PathLike], outputs: List[PathLike]):
         super().__init__(params, exec_info, inputs, outputs)
         self.csv_data = self._get_gcmat_csv_data()
-
 
     def _get_gcmat_csv_data(self) -> pd.DataFrame:
         """Read GCMAT output CSV file and return results as a DataFrame"""
@@ -79,7 +76,8 @@ class PluginGCMAT(Plugin):
         # Include './run_repast.sh' as the executable and all files in the 'data' folder as default extra inputs
         self.executable = Path(self.gcmat_dir) / "run_repast.sh"
         self.default_extra_inputs = list((Path(self.gcmat_dir) / "complete_model" / "data").glob("**/*"))
-                # Initialize output_folder attribute
+        
+        # Initialize output_folder attribute
         self.output_folder = None
 
     def prerun(self, params: Parameters) -> None:
@@ -91,15 +89,13 @@ class PluginGCMAT(Plugin):
             Parameters used by the GCMAT template
         """
         # Render the template to create the input file
-        
         input_file = Path("gc_input.txt")
         self.renderer(params, filename=input_file)
-        # print the input file
+
         # Copy the input file to the required directory
         model_directory = Path(self.gcmat_dir) / "complete_model"
         target_directory = model_directory / "data/scenariosNuclear/default_UserInputs"
         target_directory.mkdir(parents=True, exist_ok=True)
-        #make sure if the file already exists, still copy it
         shutil.copy(input_file, target_directory / "demandScenarioV2.txt")
 
 
@@ -115,7 +111,8 @@ class PluginGCMAT(Plugin):
         kwargs
             Additional keyword arguments to pass to the subprocess
         """
-        self.output_folder = output_folder
+        # use the absolute path for the output folder
+        self.output_folder = os.path.join(self.gcmat_dir, output_folder)
         param_string = f'1\tendAt\t{end_year}'
         command = [str(self.executable), param_string, subprocess.check_output('realpath .', shell=True).strip().decode('utf-8'), output_folder]
         # Run the GCMAT simulation
@@ -135,13 +132,12 @@ class PluginGCMAT(Plugin):
         -------
         GCMAT results object
         """
-        output_folder = Path(self.output_folder)  # Retrieve the stored output_folder value
-        
+        output_folder = Path(self.output_folder)  # Retrieve the stored 
         # Only collect the GUIOutputs.csv file
         # can add more files if needed
         outputs = []
         gui_outputs_file = output_folder / "GUIOutputs.csv"
         if gui_outputs_file.exists():
             outputs.append(gui_outputs_file)
-
         return ResultsGCMAT(params, exec_info, self.extra_inputs, outputs)
+    

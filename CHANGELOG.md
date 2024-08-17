@@ -9,13 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* GCMAT plugin via the `PluginGCMAT` class ([114](https://github.com/watts-dev/watts/pull/114))
-
-### Added
-
 * The `Plugin.__call__` method now accepts an `output_dir` argument that
   specifies the directory created in the database
   ([#107](https://github.com/watts-dev/watts/pull/107))
+* GCMAT plugin via the `PluginGCMAT` class ([114](https://github.com/watts-dev/watts/pull/114))
 
 ### Changes
 

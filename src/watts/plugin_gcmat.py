@@ -14,6 +14,7 @@ from .fileutils import PathLike
 from .parameters import Parameters
 from .template import TemplateRenderer
 
+
 class ResultsGCMAT(Results):
     """GCMAT simulation results
 
@@ -48,6 +49,7 @@ class ResultsGCMAT(Results):
         else:
             return pd.DataFrame()  # Return an empty DataFrame if no CSV file is found
 
+
 class PluginGCMAT(Plugin):
     """Plugin for running GCMAT
 
@@ -77,7 +79,7 @@ class PluginGCMAT(Plugin):
         # Include './run_repast.sh' as the executable and all files in the 'data' folder as default extra inputs
         self.executable = Path(self.gcmat_dir) / "run_repast.sh"
         self.default_extra_inputs = list((Path(self.gcmat_dir) / "complete_model" / "data").glob("**/*"))
-        
+
         # Initialize output_folder attribute
         self.output_folder = None
 
@@ -98,7 +100,6 @@ class PluginGCMAT(Plugin):
         target_directory = model_directory / "data/scenariosNuclear/default_UserInputs"
         target_directory.mkdir(parents=True, exist_ok=True)
         shutil.copy(input_file, target_directory / "demandScenarioV2.txt")
-
 
     def run(self, end_year: int = 2080, output_folder: str = "testout", **kwargs):
         """Run GCMAT
@@ -133,7 +134,7 @@ class PluginGCMAT(Plugin):
         -------
         GCMAT results object
         """
-        output_folder = Path(self.output_folder)  # Retrieve the stored 
+        output_folder = Path(self.output_folder)  # Retrieve the stored
         # Only collect the GUIOutputs.csv file
         # can add more files if needed
         outputs = []

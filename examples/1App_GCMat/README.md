@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This example provides a demonstration for using WATTS explore supply chain dynamics and uncertainty under nuclear scenarios of Uranium fuel demand growth or shrinkage, supply disruptions.
+This example provides a demonstration for using WATTS to explore supply chain dynamics and uncertainty with GCMat under nuclear scenarios of Uranium fuel demand growth or shrinkage, supply disruptions.
 
 ## Code(s)
 
